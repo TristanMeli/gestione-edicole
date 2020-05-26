@@ -12,7 +12,7 @@ namespace gestione_edicole
 {
     public partial class Form1 : Form
     {
-        struct articolo
+        public struct articolo
         {
             public string nome;
             public decimal prezzo;
@@ -89,6 +89,18 @@ namespace gestione_edicole
                 MessageBox.Show("Non puoi inserire lettere in questo campo");
                 textBox3.Clear();
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            int x = Class1.Max(ele , num);
+            label11.Text = (ele[x].prezzo).ToString();
+
+            x = Class1.Min(ele, num);
+            label12.Text = (ele[x].prezzo).ToString();
+
+            decimal med = Class1.Media(ele, num);
+            label13.Text = (med).ToString();
         }
     }
 }
