@@ -1,0 +1,9 @@
+C:\Users\Tristan\Documents\GitHub\gestione-edicole\gestione-edicole\gestione-edicole\bin\Debug\gestione-edicole.exe.config
+C:\Users\Tristan\Documents\GitHub\gestione-edicole\gestione-edicole\gestione-edicole\bin\Debug\gestione-edicole.exe
+C:\Users\Tristan\Documents\GitHub\gestione-edicole\gestione-edicole\gestione-edicole\bin\Debug\gestione-edicole.pdb
+C:\Users\Tristan\Documents\GitHub\gestione-edicole\gestione-edicole\gestione-edicole\obj\Debug\gestione-edicole.csprojAssemblyReference.cache
+C:\Users\Tristan\Documents\GitHub\gestione-edicole\gestione-edicole\gestione-edicole\obj\Debug\gestione_edicole.Form1.resources
+C:\Users\Tristan\Documents\GitHub\gestione-edicole\gestione-edicole\gestione-edicole\obj\Debug\gestione_edicole.Properties.Resources.resources
+C:\Users\Tristan\Documents\GitHub\gestione-edicole\gestione-edicole\gestione-edicole\obj\Debug\gestione-edicole.csproj.GenerateResource.cache
+C:\Users\Tristan\Documents\GitHub\gestione-edicole\gestione-edicole\gestione-edicole\obj\Debug\gestione-edicole.exe
+C:\Users\Tristan\Documents\GitHub\gestione-edicole\gestione-edicole\gestione-edicole\obj\Debug\gestione-edicole.pdb
