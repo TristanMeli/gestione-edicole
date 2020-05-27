@@ -26,6 +26,7 @@ namespace gestione_edicole
         articolo[] ele = new articolo[100];
         articolo nuovo=default(articolo);
         int num = 0;
+        int numf = 0;
         public Form1()
         {
             InitializeComponent();
@@ -35,7 +36,7 @@ namespace gestione_edicole
             textBox8.Visible = false;
             textBox9.Visible = false;
             textBox10.Visible = false;
-            textBox11.Visible = false;
+            //textBox11.Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -127,34 +128,71 @@ namespace gestione_edicole
 
         private void fileToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
         }
 
         private void caricaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string nomeFile = "ciao.txt";
-            Class1.LeggiDaFile(ele, ref num, nomeFile);
-            var row = new string[] { nuovo.nome, nuovo.autore, nuovo.prezzo.ToString(), nuovo.codice, nuovo.quantita.ToString(), nuovo.tipo };
-            var listrow = new ListViewItem(row);
-            var listrow4 = new ListViewItem(row);
-            listView1.Items.Add(listrow);
+            panel1.Visible = true;
+            panel3.Visible = false;
         }
 
         private void btn_aggiorna_Click(object sender, EventArgs e)
         {
             listView1.Items.Clear();
 
-            int x = default(int);
-            
-            
-            while (x < num)
+
+
+            if (radioButton5.Checked == false && radioButton6.Checked == false && radioButton7.Checked == false && radioButton8.Checked == false)
             {
-                var row = new string[] { ele[x].nome, ele[x].autore, ele[x].prezzo.ToString(), ele[x].codice, ele[x].quantita.ToString(), ele[x].tipo };
-                var listrow4 = new ListViewItem(row);
-                listView1.Items.Add(listrow4);
-                x++;
+                int x = default(int);
+                while (x < num)
+                {
+                    var row = new string[] { ele[x].nome, ele[x].autore, ele[x].prezzo.ToString(), ele[x].codice, ele[x].quantita.ToString(), ele[x].tipo };
+                    var listrow4 = new ListViewItem(row);
+                    listView1.Items.Add(listrow4);
+                    x++;
+                }
+                return;
             }
 
+
+            articolo[] elef = new articolo[num];
+            int numf = 0;
+
+            if (radioButton5.Checked == true)
+            {
+                string filtro = "rivista";
+                Class1.Filtra(ele,  elef, num, ref numf, filtro);
+            }
+
+            if (radioButton6.Checked == true)
+            {
+                string filtro = "giornale";
+                Class1.Filtra(ele, elef, num, ref numf, filtro);
+            }
+
+            if (radioButton7.Checked == true)
+            {
+                string filtro = "libro";
+                Class1.Filtra(ele,  elef, num, ref numf, filtro);
+            }
+
+            if (radioButton8.Checked == true)
+            {
+                string filtro = "materiale";
+                Class1.Filtra(ele,  elef, num, ref numf, filtro);
+            }
+
+            int y = default(int);
+            while (y < numf)
+            {
+                var row = new string[] { elef[y].nome, elef[y].autore, elef[y].prezzo.ToString(), elef[y].codice, elef[y].quantita.ToString(), elef[y].tipo };
+                var listrow4 = new ListViewItem(row);
+                listView1.Items.Add(listrow4);
+                y++;
+            }
+
+            numf = 0;
 
         }
 
@@ -173,19 +211,32 @@ namespace gestione_edicole
             textBox8.Text = ele[pos].prezzo.ToString();
             textBox9.Text = ele[pos].codice;
             textBox10.Text = ele[pos].quantita.ToString();
-            textBox11.Text = ele[pos].tipo;
+
+            if (ele[pos].tipo == "giornale")
+                radioButton12.Checked = true;
+
+            if (ele[pos].tipo == "libro")
+                radioButton11.Checked = true;
+
+            if (ele[pos].tipo == "rivista")
+                radioButton10.Checked = true;
+
+            if (ele[pos].tipo == "materiale")
+                radioButton9.Checked = true;
+
+            //textBox11.Text = ele[pos].tipo;
 
             textBox5.Enabled = true;
             textBox7.Visible = true;
             textBox8.Visible = true;
             textBox9.Visible = true;
             textBox10.Visible = true;
-            textBox11.Visible = true;
+            //textBox11.Visible = true;
         }
 
         private void btn_modi_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(textBox5.Text) == true || string.IsNullOrEmpty(textBox7.Text) == true || string.IsNullOrEmpty(textBox8.Text) == true || string.IsNullOrEmpty(textBox9.Text) == true || string.IsNullOrEmpty(textBox10.Text) == true || string.IsNullOrEmpty(textBox11.Text) == true )
+            if (string.IsNullOrEmpty(textBox5.Text) == true || string.IsNullOrEmpty(textBox7.Text) == true || string.IsNullOrEmpty(textBox8.Text) == true || string.IsNullOrEmpty(textBox9.Text) == true || string.IsNullOrEmpty(textBox10.Text) == true) //|| string.IsNullOrEmpty(textBox11.Text) == true
             {
                 MessageBox.Show("completare tutti i campi");
                 return;
@@ -196,7 +247,18 @@ namespace gestione_edicole
             k.prezzo = decimal.Parse(textBox8.Text);
             k.codice = textBox9.Text;
             k.quantita = int.Parse(textBox10.Text);
-            k.tipo = textBox11.Text;
+            //k.tipo ="libro";
+            if (radioButton10.Checked == true)
+                k.tipo = "rivista";
+
+            if (radioButton9.Checked == true)
+                k.tipo = "materiale";
+
+            if (radioButton11.Checked == true)
+                k.tipo = "libro";
+
+            if (radioButton12.Checked == true)
+                k.tipo = "giornale";
 
 
             try
@@ -223,7 +285,7 @@ namespace gestione_edicole
             textBox8.Clear();
             textBox9.Clear();
             textBox10.Clear();
-            textBox11.Clear();
+            //textBox11.Clear();
             MessageBox.Show("dati modificati correttamente");
             btn_aggiorna.PerformClick();
         }
@@ -284,14 +346,14 @@ namespace gestione_edicole
                 textBox8.Clear();
                 textBox9.Clear();
                 textBox10.Clear();
-                textBox11.Clear();
+                //textBox11.Clear();
 
                 textBox5.Enabled = false;
                 textBox7.Visible = false;
                 textBox8.Visible = false;
                 textBox9.Visible = false;
                 textBox10.Visible = false;
-                textBox11.Visible = false;
+                //textBox11.Visible = false;
                 return;
                 
             }
@@ -299,12 +361,96 @@ namespace gestione_edicole
 
         private void salvaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            string nomeF = "ciao.txt";
-            Class1.Salvasufile(ele, nomeF, num);
+            panel3.Visible = true;
+            panel1.Visible = false;
+            
         }
 
         private void inserireNomeFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            panel1.Visible = false;
+            string nomeFile = textBox12.Text;
+            Class1.LeggiDaFile(ele, ref num, nomeFile);
+            var row = new string[] { nuovo.nome, nuovo.autore, nuovo.prezzo.ToString(), nuovo.codice, nuovo.quantita.ToString(), nuovo.tipo };
+            var listrow = new ListViewItem(row);
+            var listrow4 = new ListViewItem(row);
+            listView1.Items.Add(listrow);
+            MessageBox.Show("file caricato con successo");
+        }
+
+    
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            panel3.Visible = false;
+            string nomeF = textBox14.Text;
+            Class1.Salvasufile(ele, nomeF, num);
+            MessageBox.Show("file salvato con successo");
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            panel1.Location = new Point(289, 133);
+            panel3.Location = new Point(289, 133);
+
+            ele[num].nome = "mario";
+            ele[num].codice = "vovo";
+            ele[num].quantita = 777;
+            ele[num].prezzo = 1.50M;
+            ele[num].tipo = "giornale";
+            ele[num].Data = DateTime.Now;
+            num++;
+
+            ele[num].nome = "marsio";
+            ele[num].codice = "vovso";
+            ele[num].quantita = 7772;
+            ele[num].prezzo = 1.50M;
+            ele[num].tipo = "rivista";
+            ele[num].Data = DateTime.Now;
+            num++;
+
+            ele[num].nome = "marddfio";
+            ele[num].codice = "vodfvo";
+            ele[num].quantita = 73277;
+            ele[num].prezzo = 132.50M;
+            ele[num].tipo = "materiale";
+            ele[num].Data = DateTime.Now;
+            num++;
+
+            ele[num].nome = "marssio";
+            ele[num].codice = "vovssso";
+            ele[num].quantita = 7772;
+            ele[num].prezzo = 21.50M;
+            ele[num].tipo = "libro";
+            ele[num].Data = DateTime.Now;
+            num++;
+        }
+
+        private void textBox4_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.A || e.KeyCode == Keys.B || e.KeyCode == Keys.C || e.KeyCode == Keys.D || e.KeyCode == Keys.E || e.KeyCode == Keys.F || e.KeyCode == Keys.G || e.KeyCode == Keys.H || e.KeyCode == Keys.I || e.KeyCode == Keys.J || e.KeyCode == Keys.K || e.KeyCode == Keys.L || e.KeyCode == Keys.M || e.KeyCode == Keys.N || e.KeyCode == Keys.O || e.KeyCode == Keys.P || e.KeyCode == Keys.Q || e.KeyCode == Keys.R || e.KeyCode == Keys.S || e.KeyCode == Keys.T || e.KeyCode == Keys.U || e.KeyCode == Keys.V || e.KeyCode == Keys.W || e.KeyCode == Keys.X || e.KeyCode == Keys.Y || e.KeyCode == Keys.Z)
+            {
+                MessageBox.Show("Non puoi inserire lettere in questo campo");
+                textBox4.Clear();
+            }
+        }
+
+        private void radioButton5_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            radioButton5.Checked = false;
+            radioButton6.Checked = false;
+            radioButton7.Checked = false;
+            radioButton8.Checked = false;
 
         }
     }

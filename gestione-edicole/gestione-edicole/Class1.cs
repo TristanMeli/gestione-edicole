@@ -191,5 +191,19 @@ namespace gestione_edicole
             }
             miofile.Close();
         }
+
+        public static void Filtra(Form1.articolo[] e, Form1.articolo[] ef, int num, ref int numf, string filtro)
+        {
+            int x = 0;
+            while (x < num)
+            {
+                if (e[x].tipo == filtro)
+                {
+                    ef[numf] = e[x];
+                    numf++;
+                }
+                x++;
+            }
+        }
     }
 }
