@@ -24,10 +24,18 @@ namespace gestione_edicole
         
         }
         articolo[] ele = new articolo[100];
+        articolo nuovo=default(articolo);
         int num = 0;
         public Form1()
         {
             InitializeComponent();
+
+            textBox5.Enabled = false;
+            textBox7.Visible = false;
+            textBox8.Visible = false;
+            textBox9.Visible = false;
+            textBox10.Visible = false;
+            textBox11.Visible = false;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -42,7 +50,7 @@ namespace gestione_edicole
                 MessageBox.Show("Inserire Tipo dell'articolo");
                 return;
             }
-            articolo nuovo;
+           
             nuovo.tipo = "sas"; //per evitare che dopo dia errore
             nuovo.nome = textBox1.Text;
             nuovo.prezzo = Decimal.Parse(textBox3.Text);
@@ -68,6 +76,20 @@ namespace gestione_edicole
             }
             ele[num] = nuovo;
             num++;
+
+            var row = new string[] { nuovo.nome, nuovo.autore, nuovo.prezzo.ToString(), nuovo.codice, nuovo.quantita.ToString(), nuovo.tipo };
+            var listrow = new ListViewItem(row);
+            var listrow4 = new ListViewItem(row);
+            listView1.Items.Add(listrow);
+            
+
+            textBox1.Clear();
+            textBox2.Clear();
+            textBox3.Clear();
+            textBox4.Clear();
+            textBox6.Clear();
+
+            
 
             //Funzioni delle info
         }
@@ -101,6 +123,189 @@ namespace gestione_edicole
 
             decimal med = Class1.Media(ele, num);
             label13.Text = (med).ToString();
+        }
+
+        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void caricaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string nomeFile = "ciao.txt";
+            Class1.LeggiDaFile(ele, ref num, nomeFile);
+            var row = new string[] { nuovo.nome, nuovo.autore, nuovo.prezzo.ToString(), nuovo.codice, nuovo.quantita.ToString(), nuovo.tipo };
+            var listrow = new ListViewItem(row);
+            var listrow4 = new ListViewItem(row);
+            listView1.Items.Add(listrow);
+        }
+
+        private void btn_aggiorna_Click(object sender, EventArgs e)
+        {
+            listView1.Items.Clear();
+
+            int x = default(int);
+            
+            
+            while (x < num)
+            {
+                var row = new string[] { ele[x].nome, ele[x].autore, ele[x].prezzo.ToString(), ele[x].codice, ele[x].quantita.ToString(), ele[x].tipo };
+                var listrow4 = new ListViewItem(row);
+                listView1.Items.Add(listrow4);
+                x++;
+            }
+
+
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+
+            int k = listView1.SelectedIndices.Count;
+            if (k == 0)
+            {
+                return;
+            }
+            int pos = Class1.cercaPos(ele, num, listView1.SelectedItems[0].SubItems[0].Text);
+            textBox5.Text = ele[pos].nome;
+            textBox7.Text = ele[pos].autore;
+            textBox8.Text = ele[pos].prezzo.ToString();
+            textBox9.Text = ele[pos].codice;
+            textBox10.Text = ele[pos].quantita.ToString();
+            textBox11.Text = ele[pos].tipo;
+
+            textBox5.Enabled = true;
+            textBox7.Visible = true;
+            textBox8.Visible = true;
+            textBox9.Visible = true;
+            textBox10.Visible = true;
+            textBox11.Visible = true;
+        }
+
+        private void btn_modi_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBox5.Text) == true || string.IsNullOrEmpty(textBox7.Text) == true || string.IsNullOrEmpty(textBox8.Text) == true || string.IsNullOrEmpty(textBox9.Text) == true || string.IsNullOrEmpty(textBox10.Text) == true || string.IsNullOrEmpty(textBox11.Text) == true )
+            {
+                MessageBox.Show("completare tutti i campi");
+                return;
+            }
+            articolo k = default(articolo);
+            k.nome = textBox5.Text;
+            k.autore = textBox7.Text;
+            k.prezzo = decimal.Parse(textBox8.Text);
+            k.codice = textBox9.Text;
+            k.quantita = int.Parse(textBox10.Text);
+            k.tipo = textBox11.Text;
+
+
+            try
+            {
+                k.prezzo = decimal.Parse(textBox8.Text);
+                k.quantita = int.Parse(textBox10.Text);
+            }
+            catch
+            {
+                MessageBox.Show("dati inseriti scorretti");
+                return;
+            }
+
+            int x = listView1.SelectedIndices.Count;
+            if (x == 0)
+            {
+                return;
+            }
+            int pos = Class1.cerca(ele, num, listView1.SelectedItems[0].SubItems[0].Text);
+            ele[pos] = k;
+            
+            textBox5.Clear();
+            textBox7.Clear();
+            textBox8.Clear();
+            textBox9.Clear();
+            textBox10.Clear();
+            textBox11.Clear();
+            MessageBox.Show("dati modificati correttamente");
+            btn_aggiorna.PerformClick();
+        }
+
+        private void radio_prezzo_CheckedChanged(object sender, EventArgs e)
+        {
+            listView1.Items.Clear();
+            if (radio_prezzo.Checked == true)
+            {
+                Class1.ordinaprezzo(ele, num);
+            }
+
+            int x = default(int);
+            while (x < num)
+            {
+                var row = new string[] { ele[x].nome, ele[x].autore, ele[x].prezzo.ToString(), ele[x].codice, ele[x].quantita.ToString(), ele[x].tipo };
+                var listrow = new ListViewItem(row);
+                listView1.Items.Add(listrow);
+                x++;
+            }
+        }
+
+        private void radio_tipo_CheckedChanged(object sender, EventArgs e)
+        {
+
+            listView1.Items.Clear();
+            if (radio_tipo.Checked == true)
+            {
+                Class1.ordinatipo(ele, num);
+            }
+
+            int x = default(int);
+            while (x < num)
+            {
+                var row = new string[] { ele[x].nome, ele[x].autore, ele[x].prezzo.ToString(), ele[x].codice, ele[x].quantita.ToString(), ele[x].tipo };
+                var listrow = new ListViewItem(row);
+                listView1.Items.Add(listrow);
+                x++;
+            }
+        }
+
+        private void btn_eli_Click(object sender, EventArgs e)
+        {
+            int k = listView1.SelectedIndices.Count;
+            if (k == 0)
+            {
+                return;
+            }
+            bool el = Class1.elimina(ele, ref num, listView1.SelectedItems[0].SubItems[0].Text);
+            if (el == true)
+            {
+                MessageBox.Show("programma eliminato");
+
+                btn_aggiorna_Click(sender, e);
+
+                textBox5.Clear();
+                textBox7.Clear();
+                textBox8.Clear();
+                textBox9.Clear();
+                textBox10.Clear();
+                textBox11.Clear();
+
+                textBox5.Enabled = false;
+                textBox7.Visible = false;
+                textBox8.Visible = false;
+                textBox9.Visible = false;
+                textBox10.Visible = false;
+                textBox11.Visible = false;
+                return;
+                
+            }
+        }
+
+        private void salvaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            string nomeF = "ciao.txt";
+            Class1.Salvasufile(ele, nomeF, num);
+        }
+
+        private void inserireNomeFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
